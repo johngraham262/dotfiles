@@ -34,14 +34,6 @@ PROMPT_COMMAND='CUR_DIR=`pwd|sed -e "s!$HOME!~!"|sed -E "s!([^/])[^/]+/!\1/!g"`'
 PS1="${txtpurple}\$CUR_DIR${txtend} ${txtwhite}\$(parse_git_branch)\$(parse_svn_branch)\$ "  # don't end color, I want my text white
 export PS1
 
-# Set prompt to abbr. of current directory & (git branch).
-#PROMPT_COMMAND='CurDir=`pwd|sed -e "s!$HOME!~!"|sed -E "s!([^/])[^/]+/!\1/!g"`'
-#PS1='[$CurDir$(__git_ps1)]\$ '
-
-# Add pwd to title bar. Set prompt to green abbr. of pwd (git-branch).
-#PROMPT_COMMAND='CUR_DIR=`pwd|sed -e "s!$HOME!~!"|sed -E "s!([^/])[^/]+/!\1/!g"`'
-#PS1='\[\e]2;\w\a\e[32;1m\][$CUR_DIR$(__git_ps1)]\$\[\e[0m\] '
-
 alias bp="vim ~/.bash_profile"
 alias bps="vim ~/.bash_profile_secrets"
 alias vrc="vim ~/.vimrc"
