@@ -1,0 +1,20 @@
+" This file is specifically used for xcode's vim plugin.
+" It's just like a .vimrc file, but probably less functionality.
+
+set wmw=0
+map <c-h> <c-w>h<c-w><Bar>
+map <c-j> <c-w>j<c-w><Bar>
+map <c-k> <c-w>k<c-w><Bar>
+map <c-l> <c-w>l<c-w><Bar>
+
+" Convenience
+nmap ,a :wa<CR>
+nmap ,q :q<CR>
+
+""" Clipboard
+" copy highlighted to clipboard
+vmap ,c "*y
+" copy word to clipboard
+nmap ,d "*yiw
+" paste
+nmap ,v :set paste<CR>"*p:set nopaste<CR>
