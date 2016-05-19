@@ -45,6 +45,12 @@ set backspace=indent,eol,start
 set laststatus=2
 set statusline+=%F
 
+" crtl-direction navigate between vim panes
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-h> <C-w>h
+nnoremap <C-l> <C-w>l
+
 " Convenience
 nmap ,a :wa<CR>
 nmap ,q :q<CR>
@@ -56,6 +62,9 @@ vmap ,c "*y
 nmap ,d "*yiw
 " paste
 nmap ,v :set paste<CR>"*p:set nopaste<CR>
+
+" Python debugging
+" drop a debugger with: ----- from nose.tools import set_trace; set_trace()
 
 " Fix frequent typo of mine
 command WQ wq
@@ -103,6 +112,9 @@ let NERDTreeIgnore=[ '\.pyc$', '\.pyo$', '\.db$' ]
 " Mark syntax errors with signs
 let g:syntastic_enable_signs=2
 
+" Specify height of error list
+let g:syntastic_loc_list_height = 3
+
 " Don't jump when it finds an error
 let g:syntastic_auto_jump=0
 
@@ -119,6 +131,15 @@ let g:vimux_ruby_cmd_unit_test = "rspec"
 autocmd FileType ruby  map <Leader>ra :call VimuxRunCommand("rspec")<CR>
 autocmd FileType ruby  map <Leader>rF :RunAllRubyTests<CR>
 autocmd FileType ruby  map <Leader>rf :RunRubyFocusedTest<CR>
+
+autocmd FileType python map <Leader>ra :call RunNoseTest()<CR>
+autocmd FileType python map <Leader>rF :call RunNoseTestBuffer()<CR>
+autocmd FileType python map <Leader>rf :call RunNoseTestFocused()<CR>
+
 map <Leader>rr :call VimuxRunLastCommand()<CR>
+map <Leader>rs :call VimuxRunNoseSetup()<CR>
+map <Leader>ri :call VimuxInspectRunner()<CR>
+map <Leader>rc :call VimuxCloseRunner()<CR>
+map <Leader>rt :call VimuxTogglePane()<CR>
 
 map Y y$

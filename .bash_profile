@@ -6,7 +6,11 @@ fi
 export PATH="$HOME/.rbenv/bin:$PATH"
 eval "$(rbenv init -)"
 
+# I'm using solarized: http://ethanschoonover.com/solarized
+# Be sure to change your terminal's color scheme too.
+export CLICOLOR=1
 export TERM=xterm-256color
+export FIN_HOME=~/code/fin-core-beta
 
 #how current git/svn project info in prompt
 parse_git_dirty() {
@@ -28,7 +32,7 @@ txtpurple='\[\033[0;35m\]'
 txtwhite='\[\033[0;37m\]'
 txtend='\[\033[0m\]'
 
-# prompt
+# Set the prompt
 PROMPT_COMMAND='CUR_DIR=`pwd|sed -e "s!$HOME!~!"|sed -E "s!([^/])[^/]+/!\1/!g"`'
 #${txtgreen}\u$DIM${txtend} ${txtwhite}@${txtend} ${txtorange}\h${txtend}
 PS1="${txtpurple}\$CUR_DIR${txtend} ${txtwhite}\$(parse_git_branch)\$(parse_svn_branch)\$ "  # don't end color, I want my text white
@@ -89,6 +93,11 @@ gsr() {
 }
 
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
+
+# Source bashrc so you don't have to manage both
+if [ -f ~/.bashrc ]; then
+   source ~/.bashrc
+fi
 
 # AFTER THIS LINE IS NOT STORED 
 if [ -f ~/.bash_profile_secrets ] ; then source ~/.bash_profile_secrets; fi
