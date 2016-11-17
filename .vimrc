@@ -63,9 +63,6 @@ nmap ,d "*yiw
 " paste
 nmap ,v :set paste<CR>"*p:set nopaste<CR>
 
-" Python debugging
-" drop a debugger with: ----- from nose.tools import set_trace; set_trace()
-
 " Fix frequent typo of mine
 command WQ wq
 command Wq wq
@@ -82,6 +79,8 @@ python del powerline_setup
 
 " Open useful sidebars (nerdtree)
 nmap ,nt :NERDTreeToggle<CR>
+nmap ,n :NERDTreeFind<CR>
+let NERDTreeIgnore=[ '\.pyc$', '\.pyo$', '\.db$' ]
 
 " Have Vim jump to the last position when reopening a file
 if has("autocmd")
