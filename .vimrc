@@ -100,6 +100,11 @@ autocmd Filetype html set tabstop=2 softtabstop=2 shiftwidth=2
 autocmd Filetype javascript set tabstop=2 softtabstop=2 shiftwidth=2
 autocmd Filetype yaml set expandtab tabstop=2 softtabstop=2 shiftwidth=2
 
+# Easy add a breakpoint with ",d" in normal vim mode
+autocmd FileType javascript map <Leader>d kodebugger;<ESC>
+autocmd FileType python map <Leader>d koimport ipdb; ipdb.set_trace()<ESC>
+autocmd FileType ruby map <Leader>d kobinding.pry<ESC>
+
 " Custom ignores for ctrlp and NERDTree
 let g:ctrlp_custom_ignore = {
   \ 'dir':  '\v[\/](\.git|node_modules|compiled_site)$',
