@@ -1,15 +1,62 @@
-" Pathogen setup
-execute pathogen#infect()
-set runtimepath^=~/.vim/bundle/ctrlp.vim
-"""
+call plug#begin('~/.vim/plugged')
 
-"syntax on
+" File navigation
+Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+
+" Fuzzy file finder
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
+
+" Easy commenting
+Plug 'scrooloose/nerdcommenter'
+
+" Linter
+Plug 'w0rp/ale'
+
+" Back to basics
+Plug 'tpope/vim-sensible'
+
+" Color scheme
+Plug 'altercation/vim-colors-solarized'
+
+" Improved text editing
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-endwise'
+
+" Vim helpers
+Plug 'tpope/vim-fugitive'
+
+" Navigate between tmux and vim panes
+Plug 'christoomey/vim-tmux-navigator'
+
+" Running tests
+Plug 'benmills/vimux'
+Plug 'pitluga/vimux-nose-test'
+Plug 'pgr0ss/vimux-ruby-test'
+
+" Text completion
+" After installation, run this: `cd ~/.vim/plugins/YouCompleteMe && ./install.py --all`
+Plug 'Valloric/YouCompleteMe'
+
+" Switch between buffers
+Plug 'jlanzarotta/bufexplorer'
+
+" Descriptive bottom line
+Plug 'powerline/powerline'
+Plug 'vim-airline/vim-airline'
+
+Plug 'nvie/vim-flake8'
+Plug 'shime/vim-livedown'
+
+call plug#end()
 
 " Colors
 """ I use iterm2. Make sure you add your color scheme to iterm2.
+syntax on
 syntax enable
 set background=dark
 colorscheme solarized
+" iterm2 color scheme: https://github.com/altercation/solarized/tree/master/iterm2-colors-solarized
 
 let mapleader=","
 
@@ -17,7 +64,7 @@ set nocompatible
 set ignorecase
 set smartcase
 set nostartofline
-set autoindent
+set cindent
 set number
 set scrolloff=5
 set hlsearch
@@ -28,6 +75,10 @@ set ruler
 set ai " Automatically set the indent of a new line (local to buffer)
 set mouse=a
 set expandtab
+
+" auto-update if the file changes outside of vim
+set autoread
+au CursorHold * checktime
 
 " Feels like cursor moves to the new pane after split
 set splitbelow
@@ -45,6 +96,9 @@ set backspace=indent,eol,start
 set laststatus=2
 set statusline+=%F
 
+" Map :FZF to ctrl+p
+nnoremap <C-p> :FZF<CR>
+
 " crtl-direction navigate between vim panes
 nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
@@ -56,15 +110,13 @@ nmap ,a :wa<CR>
 nmap ,q :q<CR>
 
 """ Clipboard
+set clipboard=unnamed
 " copy highlighted to clipboard
 vmap ,c "*y
 " copy word to clipboard
 nmap ,d "*yiw
 " paste
 nmap ,v :set paste<CR>"*p:set nopaste<CR>
-
-" Python debugging
-" drop a debugger with: ----- from nose.tools import set_trace; set_trace()
 
 " Fix frequent typo of mine
 command WQ wq
@@ -82,12 +134,17 @@ python del powerline_setup
 
 " Open useful sidebars (nerdtree)
 nmap ,nt :NERDTreeToggle<CR>
+nmap ,n :NERDTreeFind<CR>
+let NERDTreeIgnore=[ '\.pyc$', '\.pyo$', '\.db$' ]
 
 " Have Vim jump to the last position when reopening a file
 if has("autocmd")
   au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$")
     \| exe "normal g'\"" | endif
 endif
+
+" Autoremove trailing spaces when saving the buffer
+autocmd FileType c,cpp,elixir,eruby,html,java,javascript,php,ruby autocmd BufWritePre <buffer> :%s/\s\+$//e
 
 " Formatting by filetype
 filetype plugin indent on
@@ -98,34 +155,57 @@ autocmd Filetype python set tabstop=4 softtabstop=4 shiftwidth=4
 autocmd Filetype ruby set expandtab tabstop=2 softtabstop=2 shiftwidth=2
 autocmd Filetype html set tabstop=2 softtabstop=2 shiftwidth=2
 autocmd Filetype javascript set tabstop=2 softtabstop=2 shiftwidth=2
+autocmd Filetype java set tabstop=4 softtabstop=4 shiftwidth=4
 autocmd Filetype yaml set expandtab tabstop=2 softtabstop=2 shiftwidth=2
+
+" Add a breakpoint
+autocmd FileType javascript map <Leader>db kodebugger;<ESC>
+autocmd FileType python map <Leader>db koimport ipdb; ipdb.set_trace()<ESC>
+autocmd FileType ruby map <Leader>db kobinding.pry<ESC>
 
 " Custom ignores for ctrlp and NERDTree
 let g:ctrlp_custom_ignore = {
   \ 'dir':  '\v[\/](\.git|node_modules|compiled_site)$',
   \ 'file': '\v\.(exe|so|dll|pyc|yaml)$',
   \ }
-let NERDTreeIgnore=[ '\.pyc$', '\.pyo$', '\.db$' ]
 
-""" Syntastic check
+" View markdown
+nmap <leader>ld :LivedownToggle<CR>
 
-" Mark syntax errors with signs
-let g:syntastic_enable_signs=2
+""" Javascript
+function FormatPrettierJs()
+    let ln = line('.')
+    let cn = col('.')
+    %! prettier --single-quote --jsx-bracket-same-line --parser babylon --trailing-comma es5
+    cal cursor(ln, cn)
+endfunction
+" Run prettier on save (with Fin flags)
+autocmd BufWritePre *.js,*.jsx call FormatPrettierJs()
 
-" Specify height of error list
-let g:syntastic_loc_list_height = 3
+""" Ale syntax checks
+"set statusline+=%#warningmsg#
+"set statusline+=%{ALEGetStatusLine()}
+"set statusline+=%*
 
-" Don't jump when it finds an error
-let g:syntastic_auto_jump=0
+let g:airline#extensions#ale#enable = 1
+let g:ale_statusline_format = ['⨉ %d', '⚠ %d', '⬥ ok']
+let g:ale_echo_msg_error_str = 'E'
+let g:ale_echo_msg_warning_str = 'W'
+let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+let g:airline_section_error = '%{ALEGetStatusLine()}'
 
-" Autoshow error list if it finds an error
-let g:syntastic_auto_loc_list=1
+let g:ale_linters = { 'javascript': ['eslint'], 'jsx': ['eslint']  }
+let g:ale_javascript_eslint_use_global = 1
 
-let g:syntastic_ruby_checkers=['rubocop', 'mri']
-let g:syntastic_python_checkers=['pep8', 'pylint', 'python']
-let g:syntastic_javascript_checkers=['eslint']
+nnoremap <leader>s :ALENextWrap<CR>
 
-" vimux
+" Jump to last cursor position unless it's invalid or in an event handler
+autocmd BufReadPost *
+    \ if line("'\"") > 0 && line("'\"") <= line("$") |
+        \ exe "normal g`\"" |
+        \ endif
+
+""" vimux test running
 let g:vimux_ruby_file_relative_paths = 1
 let g:vimux_ruby_cmd_unit_test = "rspec"
 autocmd FileType ruby  map <Leader>ra :call VimuxRunCommand("rspec")<CR>
@@ -135,6 +215,9 @@ autocmd FileType ruby  map <Leader>rf :RunRubyFocusedTest<CR>
 autocmd FileType python map <Leader>ra :call RunNoseTest()<CR>
 autocmd FileType python map <Leader>rF :call RunNoseTestBuffer()<CR>
 autocmd FileType python map <Leader>rf :call RunNoseTestFocused()<CR>
+
+autocmd FileType javascript map <Leader>rf :call VimuxRunCommand("clear; ./dev-scripts/karma-run-line-number.sh " . expand("%.") . ":" . line("."))<CR>
+autocmd FileType javascript map <Leader>ra :call VimuxRunCommand("clear; $NODE_PATH/karma/bin/karma run -- —grep=”)<CR>
 
 map <Leader>rr :call VimuxRunLastCommand()<CR>
 map <Leader>rs :call VimuxRunNoseSetup()<CR>

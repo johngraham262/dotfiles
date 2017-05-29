@@ -11,10 +11,13 @@ eval "$(rbenv init -)"
 export CLICOLOR=1
 export TERM=xterm-256color
 export FIN_HOME=~/code/fin-core-beta
+export FIN_SSH_USERNAME=john_graham
+export JAVA_HOME="/Library/Internet Plug-Ins/JavaAppletPlugin.plugin/Contents/Home"
+source "${FIN_HOME}/fin-dev/bashrc"
 
 #how current git/svn project info in prompt
 parse_git_dirty() {
-    [[ $(git status 2> /dev/null | tail -n1) != "nothing to commit, working directory clean" ]] && echo "*"
+    [[ $(git status 2> /dev/null | tail -n1) != "nothing to commit, working tree clean" ]] && echo "*"
 }
 parse_git_branch() {
     git branch 2> /dev/null | sed -e "/^[^*]/d" -e "s/* \(.*\)/(\1$(parse_git_dirty))/"
@@ -46,6 +49,7 @@ alias gg="git g"
 alias sc="source ~/.bash_profile"
 alias json='pbpaste | python -mjson.tool'
 alias ox='openx'
+alias dk='docker-compose'
 
 # Git autocomplete
 if [ -f ~/.git-completion.bash ]; then
@@ -93,6 +97,11 @@ gsr() {
 }
 
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
+
+# For pyenv
+export PATH="$HOME/user/.pyenv/bin:$PATH"
+eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
 
 # Source bashrc so you don't have to manage both
 if [ -f ~/.bashrc ]; then

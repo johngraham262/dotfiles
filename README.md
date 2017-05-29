@@ -1,5 +1,5 @@
 # dotfiles
-Coding configs to help me with productivity.
+Coding configs to help me be more productive.
 
 These files generally exist in your home directory, `cd ~/`.
 
@@ -7,4 +7,6 @@ These files generally exist in your home directory, `cd ~/`.
 
 `.tmux.conf` manages your tmux configurations. Default tmux key bindings are confusing.
 
-`.vimrc` manages your vim configurations. I use [vim pathogen](https://github.com/tpope/vim-pathogen) to manage vim plugins.
+`.vimrc` manages your vim configurations. I use [vim plug](https://github.com/junegunn/vim-plug) to manage vim plugins.
+
+`.xvimrc` somewhat manages a vim port to Xcode.
