@@ -158,7 +158,7 @@ autocmd Filetype javascript set tabstop=2 softtabstop=2 shiftwidth=2
 autocmd Filetype java set tabstop=4 softtabstop=4 shiftwidth=4
 autocmd Filetype yaml set expandtab tabstop=2 softtabstop=2 shiftwidth=2
 
-" Add a breakpoint
+" Easy add a breakpoint with ",db" in normal vim mode
 autocmd FileType javascript map <Leader>db kodebugger;<ESC>
 autocmd FileType python map <Leader>db koimport ipdb; ipdb.set_trace()<ESC>
 autocmd FileType ruby map <Leader>db kobinding.pry<ESC>
