@@ -109,6 +109,12 @@ nnoremap <C-l> <C-w>l
 nmap ,a :wa<CR>
 nmap ,q :q<CR>
 
+" Fix frequent typo of mine
+command WQ wq
+command Wq wq
+command W w
+command Q q
+
 """ Clipboard
 set clipboard=unnamed
 " copy highlighted to clipboard
@@ -118,11 +124,9 @@ nmap ,d "*yiw
 " paste
 nmap ,v :set paste<CR>"*p:set nopaste<CR>
 
-" Fix frequent typo of mine
-command WQ wq
-command Wq wq
-command W w
-command Q q
+" Don't auto-jump to the next search result
+nnoremap <F8> :let @/='\<<C-R>=expand("<cword>")<CR>\>'<CR>:set hls<CR>
+nnoremap * :let @/='\<<C-R>=expand("<cword>")<CR>\>'<CR>:set hls<CR>
 
 " Try to fix slow esc key lag
 set timeoutlen=1000 ttimeoutlen=10
