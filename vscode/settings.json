@@ -1,0 +1,147 @@
+{
+  "diffEditor.renderIndicators": true,
+  "docker-linter.rubocop.enable": true,
+  "editor.cursorBlinking": "solid",
+  "editor.cursorStyle": "line",
+  "editor.folding": false,
+  "editor.formatOnSave": true,
+  "editor.formatOnType": true,
+  "editor.glyphMargin": false,
+  "editor.hideCursorInOverviewRuler": true,
+  "editor.minimap.enabled": false,
+  "editor.quickSuggestionsDelay": 1,
+  "editor.renderIndentGuides": false,
+  "editor.renderLineHighlight": "none",
+  "editor.scrollBeyondLastLine": false,
+  "editor.tabSize": 2,
+  "editor.wordWrap": "on",
+  "explorer.autoReveal": false,
+  "explorer.openEditors.visible": 0,
+  "gitlens.annotations.file.gutter.format": "${author} - ${message|40?} ${ago|14-}",
+  "gitlens.blame.line.enabled": false,
+  "html.format.indentInnerHtml": true,
+  "prettier.eslintIntegration": true,
+  "prettier.jsxBracketSameLine": true,
+  "prettier.parser": "flow",
+  "prettier.printWidth": 100,
+  "prettier.singleQuote": true,
+  "prettier.trailingComma": "es5",
+  "ruby.linter.run": "onSave",
+  "terminal.integrated.commandsToSkipShell": [
+    "workbench.action.focusActiveEditorGroup",
+    "workbench.action.toggleMaximizedPanel"
+  ],
+  "terminal.integrated.cursorStyle": "block",
+  "vim.cmdLineInitialColon": true,
+  "vim.disableAnnoyingNeovimMessage": true,
+  "vim.hlsearch": true,
+  "vim.leader": ",",
+  "vim.otherModesKeyBindings": [
+    {
+      "after": ["<ESC>", "\"", "*", "y", "i", "w"],
+      "before": ["leader", "d"]
+    },
+    {
+      "after": ["\"", "*", "y"],
+      "before": ["leader", "c"]
+    }
+  ],
+  "vim.otherModesKeyBindingsNonRecursive": [
+    {
+      "after": [],
+      "before": ["leader", "g", "b"],
+      "commands": [
+        {
+          "args": [],
+          "command": "gitlens.toggleFileBlame"
+        }
+      ]
+    },
+    {
+      "after": [],
+      "before": ["leader", "n", "t"],
+      "commands": [
+        {
+          "args": [],
+          "command": "workbench.action.toggleSidebarVisibility"
+        }
+      ]
+    },
+    {
+      "after": [],
+      "before": ["leader", "c", "i"],
+      "commands": [
+        {
+          "args": [],
+          "command": "editor.action.commentLine"
+        }
+      ]
+    },
+    {
+      "after": [],
+      "before": ["leader", "c", "b"],
+      "commands": [
+        {
+          "args": [],
+          "command": "editor.action.blockComment"
+        }
+      ]
+    },
+    {
+      "after": [],
+      "before": ["leader", "a"],
+      "commands": [
+        {
+          "args": [],
+          "command": "workbench.action.files.saveAll"
+        }
+      ]
+    },
+    {
+      "after": [],
+      "before": ["leader", "q"],
+      "commands": [
+        {
+          "args": [],
+          "command": "workbench.action.closeActiveEditor"
+        }
+      ]
+    },
+    {
+      "after": [],
+      "before": ["J"],
+      "commands": [
+        {
+          "args": [],
+          "command": "extension.joinCommentAware"
+        }
+      ]
+    },
+    {
+      "after": ["<ESC>", "k", "o", "b", "i", "n", "d", "i", "n", "g", ".", "p", "r", "y"],
+      "before": ["leader", "d", "b"]
+    }
+  ],
+  "vim.searchHighlightColor": "#B4881D",
+  "vim.statusBarColorControl": true,
+  "vim.statusBarColors": {
+    "insert": "#0B6085",
+    "normal": "#303030",
+    "visual": "#728A1D",
+    "visualblock": "#728A1D",
+    "visualline": "#728A1D"
+  },
+  "vim.useCtrlKeys": true,
+  "vim.visualstar": true,
+  "window.title": "${activeEditorMedium}${separator}${folderName}",
+  "window.zoomLevel": 0,
+  "workbench.colorCustomizations": {
+    "statusBar.background": "#303030",
+    "statusBar.noFolderBackground": "#303030",
+    "statusBar.debuggingBackground": "#303030"
+  },
+  "workbench.colorTheme": "Visual Studio Dark",
+  "workbench.editor.labelFormat": "medium",
+  "workbench.editor.showTabs": true,
+  "workbench.editor.tabCloseButton": "off"
+}
