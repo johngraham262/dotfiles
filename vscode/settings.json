@@ -27,6 +27,17 @@
   "prettier.singleQuote": true,
   "prettier.trailingComma": "es5",
   "ruby.linter.run": "onSave",
+  "runInTerminal.commands": [
+    { "match": "_spec\\.rb$", "name": "focus", "cmd": "./bin/rspec ${relativeFile}:${line}" },
+    { "match": "_spec\\.rb$", "name": "file", "cmd": "./bin/rspec ${relativeFile}" },
+    { "match": "_spec\\.rb$", "name": "s", "cmd": "./bin/rspec" },
+    {
+      "match": "(spec|test)\\.js$",
+      "name": "b",
+      "cmd":
+        "xvfb-run ./node_modules/karma/bin/karma start --single-run=true --single-file=\"${relativeFile}\""
+    }
+  ],
   "terminal.integrated.commandsToSkipShell": [
     "workbench.action.focusActiveEditorGroup",
     "workbench.action.toggleMaximizedPanel"
@@ -113,13 +124,28 @@
       "commands": [
         {
           "args": [],
-          "command": "extension.joinCommentAware"
+          "command": "joinCommentAware.join"
         }
       ]
     },
     {
       "after": ["<ESC>", "k", "o", "b", "i", "n", "d", "i", "n", "g", ".", "p", "r", "y"],
       "before": ["leader", "d", "b"]
+    },
+    {
+      "before": ["<leader>", "r", "r"],
+      "after": [],
+      "commands": [{ "command": "runInTerminal.runLast" }]
+    },
+    {
+      "before": ["<leader>", "r", "f"],
+      "after": [],
+      "commands": [{ "command": "runInTerminal.run", "args": { "name": "focus" } }]
+    },
+    {
+      "before": ["<leader>", "r", "F"],
+      "after": [],
+      "commands": [{ "command": "runInTerminal.run", "args": { "name": "file" } }]
     }
   ],
   "vim.searchHighlightColor": "#B4881D",
@@ -136,12 +162,13 @@
   "window.title": "${activeEditorMedium}${separator}${folderName}",
   "window.zoomLevel": 0,
   "workbench.colorCustomizations": {
-    "statusBar.background": "#303030",
-    "statusBar.noFolderBackground": "#303030",
-    "statusBar.debuggingBackground": "#303030"
+    "statusBar.background": "#728A1D",
+    "statusBar.noFolderBackground": "#728A1D",
+    "statusBar.debuggingBackground": "#728A1D"
   },
   "workbench.colorTheme": "Visual Studio Dark",
   "workbench.editor.labelFormat": "medium",
   "workbench.editor.showTabs": true,
   "workbench.editor.tabCloseButton": "off"
 }
+

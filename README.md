@@ -9,4 +9,6 @@ These files generally exist in your home directory, `cd ~/`.
 
 `.vimrc` manages your vim configurations. I use [vim plug](https://github.com/junegunn/vim-plug) to manage vim plugins.
 
+`vscode` directory contains settings for the vscode IDE.
+
 `.xvimrc` somewhat manages a vim port to Xcode.
