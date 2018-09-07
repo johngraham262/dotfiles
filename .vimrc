@@ -36,14 +36,16 @@ Plug 'pgr0ss/vimux-ruby-test'
 
 " Text completion
 " After installation, run this: `cd ~/.vim/plugins/YouCompleteMe && ./install.py --all`
-Plug 'Valloric/YouCompleteMe'
+" Plug 'Valloric/YouCompleteMe'
 
 " Switch between buffers
 Plug 'jlanzarotta/bufexplorer'
 
+Plug 'flowtype/vim-flow'
+
 " Descriptive bottom line
-Plug 'powerline/powerline'
-Plug 'vim-airline/vim-airline'
+" Plug 'powerline/powerline'
+" Plug 'vim-airline/vim-airline'
 
 Plug 'nvie/vim-flake8'
 Plug 'shime/vim-livedown'
@@ -105,15 +107,22 @@ nnoremap <C-k> <C-w>k
 nnoremap <C-h> <C-w>h
 nnoremap <C-l> <C-w>l
 
-" Convenience
-nmap ,a :wa<CR>
+" Swap 'I' to go to beginning of line without insert mode
+nmap I ^
+
+" Convenience save / quit
+nmap ,a :redraw!<CR>:wa<CR>
 nmap ,q :q<CR>
 
+" Don't auto-jump to the next search result
+nnoremap <F8> :let @/='\<<C-R>=expand("<cword>")<CR>\>'<CR>:set hls<CR>
+nnoremap * :let @/='\<<C-R>=expand("<cword>")<CR>\>'<CR>:set hls<CR>
+
 " Fix frequent typo of mine
-command WQ wq
-command Wq wq
-command W w
-command Q q
+" command WQ wq
+" command Wq wq
+" command W w
+" command Q q
 
 """ Clipboard
 set clipboard=unnamed
@@ -124,17 +133,16 @@ nmap ,d "*yiw
 " paste
 nmap ,v :set paste<CR>"*p:set nopaste<CR>
 
-" Don't auto-jump to the next search result
-nnoremap <F8> :let @/='\<<C-R>=expand("<cword>")<CR>\>'<CR>:set hls<CR>
-nnoremap * :let @/='\<<C-R>=expand("<cword>")<CR>\>'<CR>:set hls<CR>
-
 " Try to fix slow esc key lag
 set timeoutlen=1000 ttimeoutlen=10
 
+" show the 100 char line guide
+set cc=100
+
 " Powerline
-python from powerline.vim import setup as powerline_setup
-python powerline_setup()
-python del powerline_setup
+python3 from powerline.vim import setup as powerline_setup
+python3 powerline_setup()
+python3 del powerline_setup
 
 " Open useful sidebars (nerdtree)
 nmap ,nt :NERDTreeToggle<CR>
@@ -148,7 +156,7 @@ if has("autocmd")
 endif
 
 " Autoremove trailing spaces when saving the buffer
-autocmd FileType c,cpp,elixir,eruby,html,java,javascript,php,ruby autocmd BufWritePre <buffer> :%s/\s\+$//e
+autocmd FileType c,cpp,elixir,eruby,html,java,javascript,php,ruby,python autocmd BufWritePre <buffer> :%s/\s\+$//e
 
 " Formatting by filetype
 filetype plugin indent on
@@ -162,10 +170,14 @@ autocmd Filetype javascript set tabstop=2 softtabstop=2 shiftwidth=2
 autocmd Filetype java set tabstop=4 softtabstop=4 shiftwidth=4
 autocmd Filetype yaml set expandtab tabstop=2 softtabstop=2 shiftwidth=2
 
-" Easy add a breakpoint with ",db" in normal vim mode
+" Add a breakpoint
 autocmd FileType javascript map <Leader>db kodebugger;<ESC>
 autocmd FileType python map <Leader>db koimport ipdb; ipdb.set_trace()<ESC>
 autocmd FileType ruby map <Leader>db kobinding.pry<ESC>
+
+" NERDCommenter
+let g:NERDSpaceDelims = 1
+let g:NERDDefaultAlign = 'left'
 
 " Custom ignores for ctrlp and NERDTree
 let g:ctrlp_custom_ignore = {
@@ -177,14 +189,14 @@ let g:ctrlp_custom_ignore = {
 nmap <leader>ld :LivedownToggle<CR>
 
 """ Javascript
-function FormatPrettierJs()
-    let ln = line('.')
-    let cn = col('.')
-    %! prettier --single-quote --jsx-bracket-same-line --parser babylon --trailing-comma es5
-    cal cursor(ln, cn)
-endfunction
+"function FormatPrettierJs()
+    "let ln = line('.')
+    "let cn = col('.')
+    "%! prettier --single-quote --jsx-bracket-same-line --parser babylon --trailing-comma es5 --print-width 100
+    "cal cursor(ln, cn)
+"endfunction
 " Run prettier on save (with Fin flags)
-autocmd BufWritePre *.js,*.jsx call FormatPrettierJs()
+"autocmd BufWritePre *.js,*.jsx call FormatPrettierJs()
 
 """ Ale syntax checks
 "set statusline+=%#warningmsg#
@@ -192,15 +204,55 @@ autocmd BufWritePre *.js,*.jsx call FormatPrettierJs()
 "set statusline+=%*
 
 let g:airline#extensions#ale#enable = 1
+let g:ale_enabled = 1
+" visual options
+let g:ale_sign_column_always = 1
+let g:ale_sign_warning = '*'
+let g:ale_sign_error = 'E'
 let g:ale_statusline_format = ['⨉ %d', '⚠ %d', '⬥ ok']
 let g:ale_echo_msg_error_str = 'E'
 let g:ale_echo_msg_warning_str = 'W'
 let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
-let g:airline_section_error = '%{ALEGetStatusLine()}'
+"let g:airline_section_error = '%{ALEGetStatusLine()}'
 
-let g:ale_linters = { 'javascript': ['eslint'], 'jsx': ['eslint']  }
+" Linting options
+let g:ale_linters = {
+\   'javascript': ['eslint', 'flow-language-server'],
+\   'jsx': ['eslint', 'flow-language-server'],
+\   'python': ['flake8'],
+\   'ruby': ['ruby', 'rubocop'],
+\   'hcl': [],
+\}
+
+let g:ale_fixers = {
+\   'javascript': ['eslint', 'prettier'],
+\   'ruby': ['rubocop'],
+\}
+let g:ale_fix_on_save = 1
 let g:ale_javascript_eslint_use_global = 1
+let g:ale_set_loclist = 0
+let g:ale_set_quickfix = 0
+let g:ale_open_list = 0
+let g:ale_keep_list_window_open = 0
+let g:ale_list_window_size = 1
 
+" language-specific options
+let g:ale_javascript_prettier_options = ' --parser babylon --single-quote --jsx-bracket-same-line --trailing-comma es5 --print-width 100'
+let g:ale_javascript_flow_executable = './dev-scripts/flow-proxy.sh'
+
+" Flow
+autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
+let g:flow#enable = 1
+let g:flow#omnifunc = 1
+let g:flow#showquickfix = 0
+let g:flow#ale_set_loclist = 1
+
+" vim-javascript and vim-jsx settings
+let g:javascript_plugin_flow = 1
+let g:jsx_ext_required = 0
+
+map <Leader>G :FlowType<CR>
+map <Leader>g :FlowJumpToDef<CR>
 nnoremap <leader>s :ALENextWrap<CR>
 
 " Jump to last cursor position unless it's invalid or in an event handler
@@ -208,6 +260,9 @@ autocmd BufReadPost *
     \ if line("'\"") > 0 && line("'\"") <= line("$") |
         \ exe "normal g`\"" |
         \ endif
+
+" YouCompleteMe YCM disable syntax checking
+let g:ycm_show_diagnostics_ui = 0
 
 """ vimux test running
 let g:vimux_ruby_file_relative_paths = 1
@@ -229,4 +284,7 @@ map <Leader>ri :call VimuxInspectRunner()<CR>
 map <Leader>rc :call VimuxCloseRunner()<CR>
 map <Leader>rt :call VimuxTogglePane()<CR>
 
+""" YouCompleteMe settings
+
 map Y y$
+
