@@ -50,6 +50,8 @@ Plug 'flowtype/vim-flow'
 Plug 'nvie/vim-flake8'
 Plug 'shime/vim-livedown'
 
+Plug 'ruanyl/vim-gh-line'
+
 call plug#end()
 
 " Colors
