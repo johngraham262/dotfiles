@@ -5,6 +5,8 @@ These files generally exist in your home directory, `cd ~/`.
 
 `.bash_profile` manages your bash prompt.
 
+`.inputrc` manages input, like auto-completion with up-arrow.
+
 `.tmux.conf` manages your tmux configurations. Default tmux key bindings are confusing.
 
 `.vimrc` manages your vim configurations. I use [vim plug](https://github.com/junegunn/vim-plug) to manage vim plugins.
