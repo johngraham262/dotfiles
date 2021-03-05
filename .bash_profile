@@ -10,10 +10,7 @@ eval "$(rbenv init -)"
 # Be sure to change your terminal's color scheme too.
 export CLICOLOR=1
 export TERM=xterm-256color
-export FIN_HOME=~/code/fin-core-beta
-export FIN_SSH_USERNAME=john_graham
 export JAVA_HOME="/Library/Internet Plug-Ins/JavaAppletPlugin.plugin/Contents/Home"
-source "${FIN_HOME}/fin-dev/bashrc"
 
 #how current git/svn project info in prompt
 parse_git_dirty() {
