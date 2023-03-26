@@ -3,6 +3,8 @@ call plug#begin(has('nvim') ? stdpath('data') . '/plugged' : '~/.vim/plugged')
 
 " File navigation
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+" Plug 'nvim-tree/nvim-web-devicons' " optional, for file icons
+" Plug 'nvim-tree/nvim-tree.lua'
 
 " Fuzzy file finder
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
@@ -16,7 +18,6 @@ Plug 'dense-analysis/ale'
 Plug 'prettier/vim-prettier'
 
 " Set up ctags
-" requires `brew install universal-ctags`
 Plug 'ludovicchabant/vim-gutentags'
 
 " Back to basics
@@ -32,9 +33,6 @@ Plug 'tpope/vim-endwise'
 " Vim helpers
 Plug 'tpope/vim-fugitive'
 
-" Autocomplete
-Plug 'ycm-core/YouCompleteMe'
-
 " Navigate between tmux and vim panes
 Plug 'christoomey/vim-tmux-navigator'
 
@@ -42,12 +40,6 @@ Plug 'christoomey/vim-tmux-navigator'
 Plug 'benmills/vimux'
 Plug 'pitluga/vimux-nose-test'
 Plug 'pgr0ss/vimux-ruby-test'
-
-" Javascript, typescript, jsx, and graphql syntax highlighting
-Plug 'pangloss/vim-javascript'
-Plug 'leafgarland/typescript-vim'
-Plug 'maxmellon/vim-jsx-pretty'
-Plug 'jparise/vim-graphql'
 
 " Switch between buffers
 Plug 'jlanzarotta/bufexplorer'
@@ -130,8 +122,7 @@ nnoremap <C-l> <C-w>l
 nmap I ^
 
 " Convenience save / quit
-" nmap ,a :redraw!<CR>:wa<CR>
-nmap ,a :wa<CR>
+nmap ,a :redraw!<CR>:wa<CR>
 nmap ,q :q<CR>
 
 " Don't auto-jump to the next search result
@@ -167,7 +158,7 @@ set cc=100
 " Open useful sidebars (nerdtree)
 nmap ,nt :NERDTreeToggle<CR>
 nmap ,n :NERDTreeFind<CR>
-let NERDTreeIgnore=[ '\.pyc$', '\.pyo$', '\.db$', '.DS_Store' ]
+let NERDTreeIgnore=[ '\.pyc$', '\.pyo$', '\.db$' ]
 let NERDTreeShowHidden=1
 
 " Have Vim jump to the last position when reopening a file
@@ -231,8 +222,6 @@ let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
 " let g:airline_section_error = '%{ALEGetStatusLine()}'
 
 " Linting options
-" \   'typescript': ['eslint', 'flow-language-server'],
-" \   'tsx': ['eslint', 'flow-language-server'],
 let g:ale_lint_on_save = 1
 let g:ale_linters = {
 \   'javascript': ['eslint', 'flow-language-server'],
@@ -245,8 +234,6 @@ let g:ale_linters = {
 let g:ale_fixers = {
 \   'typescript': ['eslint', 'prettier'],
 \   'javascript': ['eslint', 'prettier'],
-\   'typescriptreact': ['eslint', 'prettier'],
-\   'javascriptreact': ['eslint', 'prettier'],
 \   'ruby': ['rubocop'],
 \}
 let g:ale_fix_on_save = 1

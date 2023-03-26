@@ -38,15 +38,19 @@ PROMPT_COMMAND='CUR_DIR=`pwd|sed -e "s!$HOME!~!"|sed -E "s!([^/])[^/]+/!\1/!g"`'
 PS1="${txtpurple}\$CUR_DIR${txtend} ${txtwhite}\$(parse_git_branch)\$(parse_svn_branch)\$ "  # don't end color, I want my text white
 export PS1
 
-alias bp="vim ~/.bash_profile"
-alias bps="vim ~/.bash_profile_secrets"
-alias vrc="vim ~/.vimrc"
+# alias vi='/usr/local/bin/vim' # Mac's vim doesn't have +clipboard
+# alias vim='/usr/local/bin/vim' # Mac's vim doesn't have +clipboard
+alias vim="nvim"
+alias bp="nvim ~/.bash_profile"
+alias bps="nvim ~/.bash_profile_secrets"
+alias vrc="nvim ~/.config/nvim/init.vim"
 alias desk="cd ~/Desktop"
 alias gg="git g"
 alias sc="source ~/.bash_profile"
 alias json='pbpaste | python -mjson.tool'
 alias ox='openx'
 alias dk='docker-compose'
+alias sshadd='ssh-add ~/id_rsa'
 
 # Git autocomplete
 if [ -f ~/.git-completion.bash ]; then
